@@ -1,0 +1,13 @@
+{
+    "gateway_id": "GW-001",
+    "plant_id": "plant-001",
+    "poll_interval_ms": 10000,
+    "devices": [
+        {
+            "device_id": "EM-001",
+            "device_type": "energy_meter",
+            "template": "secure_elite_440",
+            "slave_id": 1
+        }
+    ]
+}
