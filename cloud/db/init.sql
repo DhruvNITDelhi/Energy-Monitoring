@@ -185,61 +185,37 @@ SELECT add_continuous_aggregate_policy('telemetry_daily',
 -- ============================================================
 -- SEED: Built-in device templates
 -- ============================================================
-INSERT INTO device_templates (name, device_type, description, register_map) VALUES
-(
-    'secure_elite_440',
-    'energy_meter',
-    'Secure Elite 440 Three-Phase Energy Meter',
-    '[
-        {"address": 3027, "data_type": 2, "param_name": "voltage_r", "scale_factor": 1.0, "register_count": 2, "unit": "V"},
-        {"address": 3029, "data_type": 2, "param_name": "voltage_y", "scale_factor": 1.0, "register_count": 2, "unit": "V"},
-        {"address": 3031, "data_type": 2, "param_name": "voltage_b", "scale_factor": 1.0, "register_count": 2, "unit": "V"},
-        {"address": 3009, "data_type": 2, "param_name": "current_r", "scale_factor": 1.0, "register_count": 2, "unit": "A"},
-        {"address": 3011, "data_type": 2, "param_name": "current_y", "scale_factor": 1.0, "register_count": 2, "unit": "A"},
-        {"address": 3013, "data_type": 2, "param_name": "current_b", "scale_factor": 1.0, "register_count": 2, "unit": "A"},
-        {"address": 3053, "data_type": 2, "param_name": "power_total", "scale_factor": 1.0, "register_count": 2, "unit": "kW"},
-        {"address": 3059, "data_type": 2, "param_name": "reactive_power", "scale_factor": 1.0, "register_count": 2, "unit": "kVAR"},
-        {"address": 3065, "data_type": 2, "param_name": "apparent_power", "scale_factor": 1.0, "register_count": 2, "unit": "kVA"},
-        {"address": 3083, "data_type": 2, "param_name": "pf_total", "scale_factor": 1.0, "register_count": 2, "unit": ""},
-        {"address": 3109, "data_type": 2, "param_name": "frequency", "scale_factor": 1.0, "register_count": 2, "unit": "Hz"},
-        {"address": 3203, "data_type": 2, "param_name": "energy_import", "scale_factor": 1.0, "register_count": 2, "unit": "kWh"},
-        {"address": 3207, "data_type": 2, "param_name": "energy_export", "scale_factor": 1.0, "register_count": 2, "unit": "kWh"},
-        {"address": 3421, "data_type": 2, "param_name": "thd_voltage_r", "scale_factor": 1.0, "register_count": 2, "unit": "%"},
-        {"address": 3423, "data_type": 2, "param_name": "thd_voltage_y", "scale_factor": 1.0, "register_count": 2, "unit": "%"},
-        {"address": 3425, "data_type": 2, "param_name": "thd_voltage_b", "scale_factor": 1.0, "register_count": 2, "unit": "%"}
-    ]'::jsonb
-),
-(
-    'generic_inverter',
-    'inverter',
-    'Generic Solar Inverter (Modbus RTU)',
-    '[
-        {"address": 0, "data_type": 5, "param_name": "status_code", "scale_factor": 1.0, "register_count": 1, "unit": ""},
-        {"address": 1, "data_type": 2, "param_name": "dc_voltage", "scale_factor": 0.1, "register_count": 2, "unit": "V"},
-        {"address": 3, "data_type": 2, "param_name": "dc_current", "scale_factor": 0.01, "register_count": 2, "unit": "A"},
-        {"address": 5, "data_type": 2, "param_name": "dc_power", "scale_factor": 1.0, "register_count": 2, "unit": "W"},
-        {"address": 7, "data_type": 2, "param_name": "ac_voltage", "scale_factor": 0.1, "register_count": 2, "unit": "V"},
-        {"address": 9, "data_type": 2, "param_name": "ac_current", "scale_factor": 0.01, "register_count": 2, "unit": "A"},
-        {"address": 11, "data_type": 2, "param_name": "ac_power", "scale_factor": 1.0, "register_count": 2, "unit": "W"},
-        {"address": 13, "data_type": 2, "param_name": "ac_frequency", "scale_factor": 0.01, "register_count": 2, "unit": "Hz"},
-        {"address": 15, "data_type": 2, "param_name": "energy_today", "scale_factor": 0.01, "register_count": 2, "unit": "kWh"},
-        {"address": 17, "data_type": 2, "param_name": "energy_total", "scale_factor": 0.1, "register_count": 2, "unit": "kWh"},
-        {"address": 19, "data_type": 2, "param_name": "temperature", "scale_factor": 0.1, "register_count": 2, "unit": "°C"}
-    ]'::jsonb
-),
-(
-    'weather_station',
-    'weather',
-    'Solar Weather Station (Irradiance, Temperature, Wind)',
-    '[
-        {"address": 0, "data_type": 2, "param_name": "irradiance", "scale_factor": 1.0, "register_count": 2, "unit": "W/m²"},
-        {"address": 2, "data_type": 2, "param_name": "ambient_temp", "scale_factor": 0.1, "register_count": 2, "unit": "°C"},
-        {"address": 4, "data_type": 2, "param_name": "module_temp", "scale_factor": 0.1, "register_count": 2, "unit": "°C"},
-        {"address": 6, "data_type": 2, "param_name": "wind_speed", "scale_factor": 0.1, "register_count": 2, "unit": "m/s"},
-        {"address": 8, "data_type": 2, "param_name": "humidity", "scale_factor": 0.1, "register_count": 2, "unit": "%"}
-    ]'::jsonb
-)
-ON CONFLICT (name) DO NOTHING;
+DO $$
+BEGIN
+    -- Secure Elite 440 Energy Meter
+    INSERT INTO device_templates (name, device_type, description, register_map) VALUES (
+        'secure_elite_440',
+        'energy_meter',
+        'Secure Elite 440 Three-Phase Energy Meter',
+        '[{"address":3027,"data_type":2,"param_name":"voltage_r","scale_factor":1.0,"register_count":2,"unit":"V"},{"address":3029,"data_type":2,"param_name":"voltage_y","scale_factor":1.0,"register_count":2,"unit":"V"},{"address":3031,"data_type":2,"param_name":"voltage_b","scale_factor":1.0,"register_count":2,"unit":"V"},{"address":3009,"data_type":2,"param_name":"current_r","scale_factor":1.0,"register_count":2,"unit":"A"},{"address":3011,"data_type":2,"param_name":"current_y","scale_factor":1.0,"register_count":2,"unit":"A"},{"address":3013,"data_type":2,"param_name":"current_b","scale_factor":1.0,"register_count":2,"unit":"A"},{"address":3053,"data_type":2,"param_name":"power_total","scale_factor":1.0,"register_count":2,"unit":"kW"},{"address":3059,"data_type":2,"param_name":"reactive_power","scale_factor":1.0,"register_count":2,"unit":"kVAR"},{"address":3065,"data_type":2,"param_name":"apparent_power","scale_factor":1.0,"register_count":2,"unit":"kVA"},{"address":3083,"data_type":2,"param_name":"pf_total","scale_factor":1.0,"register_count":2,"unit":""},{"address":3109,"data_type":2,"param_name":"frequency","scale_factor":1.0,"register_count":2,"unit":"Hz"},{"address":3203,"data_type":2,"param_name":"energy_import","scale_factor":1.0,"register_count":2,"unit":"kWh"},{"address":3207,"data_type":2,"param_name":"energy_export","scale_factor":1.0,"register_count":2,"unit":"kWh"},{"address":3421,"data_type":2,"param_name":"thd_voltage_r","scale_factor":1.0,"register_count":2,"unit":"%"},{"address":3423,"data_type":2,"param_name":"thd_voltage_y","scale_factor":1.0,"register_count":2,"unit":"%"},{"address":3425,"data_type":2,"param_name":"thd_voltage_b","scale_factor":1.0,"register_count":2,"unit":"%"}]'::jsonb
+    ) ON CONFLICT (name) DO NOTHING;
+
+    -- Generic Solar Inverter
+    INSERT INTO device_templates (name, device_type, description, register_map) VALUES (
+        'generic_inverter',
+        'inverter',
+        'Generic Solar Inverter (Modbus RTU)',
+        '[{"address":0,"data_type":5,"param_name":"status_code","scale_factor":1.0,"register_count":1,"unit":""},{"address":1,"data_type":2,"param_name":"dc_voltage","scale_factor":0.1,"register_count":2,"unit":"V"},{"address":3,"data_type":2,"param_name":"dc_current","scale_factor":0.01,"register_count":2,"unit":"A"},{"address":5,"data_type":2,"param_name":"dc_power","scale_factor":1.0,"register_count":2,"unit":"W"},{"address":7,"data_type":2,"param_name":"ac_voltage","scale_factor":0.1,"register_count":2,"unit":"V"},{"address":9,"data_type":2,"param_name":"ac_current","scale_factor":0.01,"register_count":2,"unit":"A"},{"address":11,"data_type":2,"param_name":"ac_power","scale_factor":1.0,"register_count":2,"unit":"W"},{"address":13,"data_type":2,"param_name":"ac_frequency","scale_factor":0.01,"register_count":2,"unit":"Hz"},{"address":15,"data_type":2,"param_name":"energy_today","scale_factor":0.01,"register_count":2,"unit":"kWh"},{"address":17,"data_type":2,"param_name":"energy_total","scale_factor":0.1,"register_count":2,"unit":"kWh"},{"address":19,"data_type":2,"param_name":"temperature","scale_factor":0.1,"register_count":2,"unit":"degC"}]'::jsonb
+    ) ON CONFLICT (name) DO NOTHING;
+
+    -- Weather Station
+    INSERT INTO device_templates (name, device_type, description, register_map) VALUES (
+        'weather_station',
+        'weather',
+        'Solar Weather Station (Irradiance, Temperature, Wind)',
+        '[{"address":0,"data_type":2,"param_name":"irradiance","scale_factor":1.0,"register_count":2,"unit":"W/m2"},{"address":2,"data_type":2,"param_name":"ambient_temp","scale_factor":0.1,"register_count":2,"unit":"degC"},{"address":4,"data_type":2,"param_name":"module_temp","scale_factor":0.1,"register_count":2,"unit":"degC"},{"address":6,"data_type":2,"param_name":"wind_speed","scale_factor":0.1,"register_count":2,"unit":"m/s"},{"address":8,"data_type":2,"param_name":"humidity","scale_factor":0.1,"register_count":2,"unit":"%"}]'::jsonb
+    ) ON CONFLICT (name) DO NOTHING;
+
+    RAISE NOTICE 'Device templates seeded successfully';
+EXCEPTION WHEN OTHERS THEN
+    RAISE NOTICE 'Template seeding error: %', SQLERRM;
+END;
+$$;
 
 -- ============================================================
 -- SEED: Default plant (for testing)
